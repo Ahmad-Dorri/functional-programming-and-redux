@@ -19,20 +19,20 @@ const result = wrapInDiv(toLowerCase(trim(input)));
 */
 
 import store from './store/store';
-
+import * as actions from './store/actionTypes';
 store.subscribe(() => {
   console.log('subscribed', store.getState());
 });
 
 store.dispatch({
-  type: 'ADD_BUG',
+  type: actions.ADD_BUG,
   payload: {
     description: 'hello',
   },
 });
 
 store.dispatch({
-  type: 'REMOVE_BUG',
+  type: actions.REMOVE_BUG,
   payload: {
     id: 1,
   },
