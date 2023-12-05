@@ -21,8 +21,7 @@ const result = wrapInDiv(toLowerCase(trim(input)));
 // ! using Redux
 
 import store from './store/store';
-import { addBug, resolveBug } from './store/actions';
-import * as actions from './store/actionTypes';
+import { addBug, resolveBug } from './store/bugs';
 
 store.subscribe(() => {
   console.log('subscribed', store.getState());
@@ -30,14 +29,7 @@ store.subscribe(() => {
 
 addBug('hello');
 
-store.dispatch({
-  type: actions.REMOVE_BUG,
-  payload: {
-    id: 1,
-  },
-});
-
-resolveBug(2);
+resolveBug(1);
 
 /*
 // !creting custom Redux
