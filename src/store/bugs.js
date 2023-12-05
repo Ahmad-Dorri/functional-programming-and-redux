@@ -1,20 +1,82 @@
-import configureStore from './configureStore';
-const store = configureStore();
-// actionTypes
-const actions = {
-  ADD_BUG: 'ADD_BUG',
-  REMOVE_BUG: 'REMOVE_BUG',
-  RESOLVE_BUG: 'RESOLVE_BUG',
-};
+import { createSlice } from '@reduxjs/toolkit';
 
-// reducer
-// creating unique id for each bug
+//! REDUX TOOLKIT CREATESLICE
+let lastId = 0;
+const slice = createSlice({
+  name: 'bugs',
+  initialState: [],
+  reducers: {
+    addBug: (bugs, action) => {
+      bugs.push({
+        id: ++lastId,
+        description: action.payload.description,
+        resolved: false,
+      });
+    },
+    removeBug: (bugs, action) => {
+      return bugs.filter((bug) => bug.id !== action.payload.id);
+    },
+    resolveBug: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs[index].resolved = true;
+    },
+  },
+});
+
+export const { addBug, removeBug, resolveBug } = slice.actions;
+export default slice.reducer;
+
+//!REDUX TOOLKIT
+//actions
+/*
+export const addBug = createAction('ADD_BUG');
+export const removeBug = createAction('REMOVE_BUG');
+export const resolveBug = createAction('RESOLVE_BUG');
+*/
+//! REDUX TOOLKIT REDUCER
+/*
 let createId = 0;
 
-function bugReducer(state = [], action) {
-  switch (action.type) {
-    case actions.ADD_BUG:
-      return [
+export default createReducer(
+  //initial state value
+  [],
+  {
+    [addBug.type]: (bugs, action) => {
+      // we can use mutable code because Redux Toolkit uses Immer under the hood
+      bugs.push({
+        id: ++createId,
+        description: action.payload.description,
+        resolved: false,
+      });
+    },
+    [removeBug.type]: (bugs, action) => {
+      return bugs.filter((bug) => bug.id !== action.payload.id);
+    },
+    [resolveBug.type]: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs[index].resolved = true;
+    },
+  }
+);
+*/
+//! in Redux Toolkit we don't need actionTypes anymore
+// actionTypes
+
+/*
+  const actions = {
+    ADD_BUG: 'ADD_BUG',
+    REMOVE_BUG: 'REMOVE_BUG',
+    RESOLVE_BUG: 'RESOLVE_BUG',
+  };
+  */
+//!REDUX REDUCER
+/*
+  creating unique id for each bug
+  let createId = 0;
+  function bugReducer(state = [], action) {
+    switch (action.type) {
+      case actions.ADD_BUG:
+        return [
         ...state,
         {
           id: ++createId,
@@ -32,9 +94,10 @@ function bugReducer(state = [], action) {
       return state;
   }
 }
+*/
 
-// action creators
-
+//! REDUX (action creators)
+/*
 function addBug(description) {
   store.dispatch({
     type: actions.ADD_BUG,
@@ -61,6 +124,6 @@ function resolveBug(id) {
     },
   });
 }
-
-export default bugReducer;
+export default bugReducer
 export { removeBug, resolveBug, addBug };
+*/

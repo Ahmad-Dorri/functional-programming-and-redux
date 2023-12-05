@@ -18,21 +18,31 @@ const pipeResult = pipeTransform(input)
 const result = wrapInDiv(toLowerCase(trim(input)));
 */
 
-// ! using Redux
+import * as prodcutsActions from './store/products';
+import * as bugsActions from './store/bugs';
+import configureStore from './store/configureStore';
+const store = configureStore();
 
-import store from './store/store';
-import { addBug, resolveBug } from './store/bugs';
+// ! using Redux Toolkit
+store.dispatch(
+  prodcutsActions.addProduct({
+    name: 'product1',
+  })
+);
+store.dispatch(
+  prodcutsActions.addProduct({
+    name: 'product2',
+  })
+);
 
-store.subscribe(() => {
-  console.log('subscribed', store.getState());
-});
+store.dispatch(
+  bugsActions.addBug({
+    description: 'Bug1',
+  })
+);
 
-addBug('hello');
-
-resolveBug(1);
-
-/*
 // !creting custom Redux
+/*
 import * as actions from './store/actionTypes';
 import store from './custom-store/store';
 
