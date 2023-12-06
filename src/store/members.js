@@ -26,8 +26,14 @@ const slice = createSlice({
 //   (members, id) => members.find((member) => member.id === id)
 // );
 
-export const getMember = (state, id) =>
-  state.entities.members.find((member) => member.id === id);
+// export const getMember = (state, id) =>
+//   state.entities.members.find((member) => member.id === id);
+
+export const getMember = (memberId) =>
+  createSelector(
+    (state) => state.entities.members,
+    (members) => members.find((member) => member.id === memberId)
+  );
 
 export default slice.reducer;
 export const { addBugToMember, addMember } = slice.actions;

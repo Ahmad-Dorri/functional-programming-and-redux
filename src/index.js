@@ -78,10 +78,10 @@ store.dispatch(
   })
 );
 
-const member2BugIds = getMember(store.getState(), 2).bugIds;
+const member2BugIds = getMember(2)(store.getState()).bugIds;
 
 const member2Bugs = member2BugIds.map((bugId) => {
-  return getBug(store.getState(), bugId);
+  return getBug(bugId)(store.getState());
 });
 
 console.log(member2Bugs);

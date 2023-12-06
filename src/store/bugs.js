@@ -27,8 +27,15 @@ export const { addBug, removeBug, resolveBug } = slice.actions;
 export default slice.reducer;
 
 //! SELECTORS
-export const getBug = (state, id) =>
-  state.entities.bugs.find((bug) => bug.id === id);
+// export const getBug = (state, id) =>
+//   state.entities.bugs.find((bug) => bug.id === id);
+
+export const getBug = (bugId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.find((bug) => bug.id === bugId)
+  );
+
 //! memoized selectors
 export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
