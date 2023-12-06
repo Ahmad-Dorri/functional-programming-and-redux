@@ -18,24 +18,14 @@ const pipeResult = pipeTransform(input)
 const result = wrapInDiv(toLowerCase(trim(input)));
 */
 
-import * as prodcutsActions from './store/products';
 import * as bugsActions from './store/bugs';
-import { getUnresolvedBugs } from './store/bugs';
+import * as membersActions from './store/members';
+import { getMember } from './store/members';
+import { getBug } from './store/bugs';
 import configureStore from './store/configureStore';
 const store = configureStore();
 
 // ! using Redux Toolkit
-
-store.dispatch(
-  prodcutsActions.addProduct({
-    name: 'product1',
-  })
-);
-store.dispatch(
-  prodcutsActions.addProduct({
-    name: 'product2',
-  })
-);
 
 store.dispatch(
   bugsActions.addBug({
@@ -43,15 +33,61 @@ store.dispatch(
   })
 );
 
-// store.dispatch(
-//   bugsActions.resolveBug({
-//     id: 1,
-//   })
-// );
+store.dispatch(
+  bugsActions.addBug({
+    description: 'Bug2',
+  })
+);
 
-const unresolvedBugs1 = getUnresolvedBugs(store.getState());
-const unresolvedBugs2 = getUnresolvedBugs(store.getState());
-console.log(unresolvedBugs1 === unresolvedBugs2);
+store.dispatch(
+  bugsActions.addBug({
+    description: 'Bug3',
+  })
+);
+
+store.dispatch(
+  membersActions.addMember({
+    name: 'ahmad',
+  })
+);
+
+store.dispatch(
+  membersActions.addMember({
+    name: 'hamid',
+  })
+);
+
+store.dispatch(
+  membersActions.addBugToMember({
+    id: 2,
+    bugId: 1,
+  })
+);
+
+store.dispatch(
+  membersActions.addBugToMember({
+    id: 2,
+    bugId: 2,
+  })
+);
+
+store.dispatch(
+  membersActions.addBugToMember({
+    id: 1,
+    bugId: 3,
+  })
+);
+
+const member2BugIds = getMember(store.getState(), 2).bugIds;
+
+const member2Bugs = member2BugIds.map((bugId) => {
+  return getBug(store.getState(), bugId);
+});
+
+console.log(member2Bugs);
+
+// const bug1 = getBug(state, 1);
+// state.entities.bugs.
 // !creting custom Redux
 /*
 import * as actions from './store/actionTypes';
