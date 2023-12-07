@@ -34,7 +34,7 @@ store.dispatch(
 );
 
 store.dispatch((dispatch, getState) => {
-  dispatch({ type: 'add', bugs: [1, 2] });
+  dispatch({ type: 'error', payload: { message: 'an error occured.' } });
 });
 
 /*

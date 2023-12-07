@@ -15,11 +15,13 @@ export default function configureStore() {
 import { configureStore } from '@reduxjs/toolkit';
 import reducers from './reducers';
 import logger from './middleware/logger';
+import tostify from './middleware/tostify';
 // import func from './middleware/func';
 
 export default function () {
   return configureStore({
     reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(tostify),
   });
 }
