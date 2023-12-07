@@ -11,8 +11,15 @@ const slice = createSlice({
     lastFetch: null,
   },
   reducers: {
+    bugRequested: (bugs, action) => {
+      bugs.loading = true;
+    },
     bugsReceived: (bugs, action) => {
       bugs.list = action.payload.data;
+      bugs.loading = false;
+    },
+    bugsRequestFailed: (bugs, action) => {
+      bugs.loading = false;
     },
     addBug: (bugs, action) => {
       bugs.list.push({
@@ -31,7 +38,14 @@ const slice = createSlice({
   },
 });
 
-export const { addBug, removeBug, resolveBug, bugsReceived } = slice.actions;
+export const {
+  addBug,
+  removeBug,
+  resolveBug,
+  bugsReceived,
+  bugRequested,
+  bugsRequestFailed,
+} = slice.actions;
 export default slice.reducer;
 
 //! ACTION CREATORS FOR CALLING APIS
@@ -41,6 +55,8 @@ const url = '/bugs';
 export const loadBugs = () =>
   apiCallBegan({
     url,
+    onStart: bugRequested.type,
+    onError: bugsRequestFailed.type,
     onSuccess: bugsReceived.type,
   });
 //! SELECTORS

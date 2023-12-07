@@ -23,10 +23,6 @@ export default function () {
   return configureStore({
     reducer: reducers,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoreActions: ['apiCallBegan'],
-        },
-      }).concat(tostify, api),
+      getDefaultMiddleware().concat(tostify, api),
   });
 }
