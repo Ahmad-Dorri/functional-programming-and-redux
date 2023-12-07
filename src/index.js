@@ -19,9 +19,10 @@ const result = wrapInDiv(toLowerCase(trim(input)));
 */
 
 import * as bugsActions from './store/bugs';
-import * as membersActions from './store/members';
-import { getMember } from './store/members';
-import { getBug } from './store/bugs';
+import * as apiActions from './store/api';
+// import * as membersActions from './store/members';
+// import { getMember } from './store/members';
+// import { getBug } from './store/bugs';
 import configureStore from './store/configureStore';
 const store = configureStore();
 
@@ -33,18 +34,16 @@ store.dispatch(
   })
 );
 
-store.dispatch((dispatch, getState) => {
-  dispatch({ type: 'error', payload: { message: 'an error occured.' } });
-});
+// store.dispatch((dispatch, getState) => {
+//   dispatch({ type: 'error', payload: { message: 'an error occured.' } });
+// });
 
-store.dispatch({
-  type: 'apiCallBegan',
-  payload: {
+store.dispatch(
+  apiActions.apiCallBegan({
     url: '/bugs',
     onSuccess: 'bugsRecived',
-    onError: 'apiRequestFailed',
-  },
-});
+  })
+);
 
 /*
 store.dispatch(

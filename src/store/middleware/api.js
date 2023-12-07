@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-
+import * as actions from '../api';
 /*
 const action = {
   url: '/bugs',
@@ -13,7 +13,7 @@ const api =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (action.type !== 'apiCallBegan') return next(action);
+    if (action.type !== actions.apiCallBegan.type) return next(action);
     // for showing this dispatch in our redux devtools
     next(action);
     const { url, method, data, onSuccess, onError } = action.payload;
@@ -23,10 +23,22 @@ const api =
         url, // /bugs
         method, // get
         data, // {}
+        onSuccess,
+        onError,
       })
       .then(
-        (data) => dispatch({ type: onSuccess, payload: data }),
-        (error) => dispatch({ type: onError, payload: error })
+        (data) => {
+          //general
+          dispatch(actions.apiCallSuccess(data));
+          //specific
+          if (onSuccess) dispatch({ type: onSuccess, payload: data });
+        },
+        (error) => {
+          // general error handling
+          dispatch(actions.apiCallFailed(error));
+          // specific error handling
+          if (onError) dispatch({ type: onError, payload: error });
+        }
       );
   };
 
