@@ -37,6 +37,15 @@ store.dispatch((dispatch, getState) => {
   dispatch({ type: 'error', payload: { message: 'an error occured.' } });
 });
 
+store.dispatch({
+  type: 'apiCallBegan',
+  payload: {
+    url: '/bugs',
+    onSuccess: 'bugsRecived',
+    onError: 'apiRequestFailed',
+  },
+});
+
 /*
 store.dispatch(
   bugsActions.addBug({

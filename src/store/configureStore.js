@@ -16,12 +16,17 @@ import { configureStore } from '@reduxjs/toolkit';
 import reducers from './reducers';
 import logger from './middleware/logger';
 import tostify from './middleware/tostify';
+import api from './middleware/api';
 // import func from './middleware/func';
 
 export default function () {
   return configureStore({
     reducer: reducers,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(tostify),
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoreActions: ['apiCallBegan'],
+        },
+      }).concat(tostify, api),
   });
 }
