@@ -1,31 +1,48 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { apiCallBegan } from './api';
 
 //! REDUX TOOLKIT CREATESLICE
 let lastId = 0;
 const slice = createSlice({
   name: 'bugs',
-  initialState: [],
+  initialState: {
+    list: [],
+    loading: false,
+    lastFetch: null,
+  },
   reducers: {
+    bugsReceived: (bugs, action) => {
+      bugs.list = action.payload.data;
+    },
     addBug: (bugs, action) => {
-      bugs.push({
+      bugs.list.push({
         id: ++lastId,
         description: action.payload.description,
         resolved: false,
       });
     },
     removeBug: (bugs, action) => {
-      return bugs.filter((bug) => bug.id !== action.payload.id);
+      return bugs.list.filter((bug) => bug.id !== action.payload.id);
     },
     resolveBug: (bugs, action) => {
-      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
-      bugs[index].resolved = true;
+      const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
+      bugs.list[index].resolved = true;
     },
   },
 });
 
-export const { addBug, removeBug, resolveBug } = slice.actions;
+export const { addBug, removeBug, resolveBug, bugsReceived } = slice.actions;
 export default slice.reducer;
 
+//! ACTION CREATORS FOR CALLING APIS
+// export const loadBugs = createAction('loadBugs')
+
+const url = '/bugs';
+export const loadBugs = () =>
+  apiCallBegan({
+    url,
+    onSuccess: bugsReceived.type,
+  });
 //! SELECTORS
 // export const getBug = (state, id) =>
 //   state.entities.bugs.find((bug) => bug.id === id);

@@ -19,7 +19,7 @@ const result = wrapInDiv(toLowerCase(trim(input)));
 */
 
 import * as bugsActions from './store/bugs';
-import * as apiActions from './store/api';
+import { loadBugs } from './store/bugs';
 // import * as membersActions from './store/members';
 // import { getMember } from './store/members';
 // import { getBug } from './store/bugs';
@@ -38,12 +38,14 @@ store.dispatch(
 //   dispatch({ type: 'error', payload: { message: 'an error occured.' } });
 // });
 
-store.dispatch(
-  apiActions.apiCallBegan({
-    url: '/bugs',
-    onSuccess: 'bugsRecived',
-  })
-);
+// store.dispatch(
+//   apiActions.apiCallBegan({
+//     url: '/bugs',
+//     onSuccess: 'bugs/bugsReceived',
+//   })
+// );
+
+store.dispatch(loadBugs());
 
 /*
 store.dispatch(
