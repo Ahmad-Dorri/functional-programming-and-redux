@@ -12,11 +12,14 @@ export default function configureStore() {
 */
 
 //! USING REDUX TOOLKIT
-import { configureStore } from '@reduxjs/toolkit';
+import { Tuple, configureStore } from '@reduxjs/toolkit';
 import reducers from './reducers';
+import logger from './middleware/logger';
+import func from './middleware/func';
 
 export default function () {
   return configureStore({
     reducer: reducers,
+    middleware: () => new Tuple(logger, func),
   });
 }

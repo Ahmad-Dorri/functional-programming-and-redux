@@ -33,6 +33,11 @@ store.dispatch(
   })
 );
 
+store.dispatch((dispatch, getState) => {
+  dispatch({ type: 'add', bugs: [1, 2] });
+});
+
+/*
 store.dispatch(
   bugsActions.addBug({
     description: 'Bug2',
@@ -85,7 +90,7 @@ const member2Bugs = member2BugIds.map((bugId) => {
 });
 
 console.log(member2Bugs);
-
+*/
 // const bug1 = getBug(state, 1);
 // state.entities.bugs.
 // !creting custom Redux
